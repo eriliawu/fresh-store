@@ -182,6 +182,7 @@ erase student-level-dist.dta
 ********************************************************************************
 ************ link to student demo data *****************************************
 ********************************************************************************
+{ //link demographic data
 forvalues i=12/15 {
 	local j=`i'-1
 	use "S:\AnalyticFiles\Student Level Files Stata\y20`j'`i'f.dta", clear
@@ -247,20 +248,5 @@ save fresh-data_2012-2016.dta, replace
 erase student-level-dist-fg.dta
 erase demo16.dta
 erase unique_xy.dta
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
+.
