@@ -250,3 +250,31 @@ erase demo16.dta
 erase unique_xy.dta
 }
 .
+
+********************************************************************************
+************ add 2010 census tract info ****************************************
+********************************************************************************
+* extract unique xy coordinates between 12-16
+* spatial join with 2010 census tract shapefile
+cd "C:\Users\wue04\Box Sync\fresh\data"
+import delimited unique_xy.csv, clear
+drop year id
+duplicates drop x y, force
+compress
+save xy14-16.dta, replace
+forvalues i=12/13 {
+	import delimited "H:\Personal\food environment paper 1\students' addresses\unique_xy`i'.csv", clear
+	drop year id
+	duplicates drop x y, force
+	save xy`i'.dta, replace
+}
+.
+append using xy12.dta
+append using xy14-16.dta
+duplicates drop x y, force
+compress
+export delimited unique_xy12-16.csv, replace
+
+erase xy14-16.dta
+erase xy12.dta
+erase xy13.dta
