@@ -256,6 +256,7 @@ erase unique_xy.dta
 ********************************************************************************
 * extract unique xy coordinates between 12-16
 * spatial join with 2010 census tract shapefile
+{
 cd "C:\Users\wue04\Box Sync\fresh\data"
 import delimited unique_xy.csv, clear
 drop year id
@@ -272,9 +273,27 @@ forvalues i=12/13 {
 append using xy12.dta
 append using xy14-16.dta
 duplicates drop x y, force
+drop if missing(x)|missing(y)
 compress
 export delimited unique_xy12-16.csv, replace
 
 erase xy14-16.dta
 erase xy12.dta
 erase xy13.dta
+}
+.
+
+********************************************************************************
+************ add 2010 census tract info to master data *************************
+********************************************************************************
+cd "C:\Users\wue04\Box Sync\fresh\data"
+import delimited 2010ct_students.txt, clear
+tab county state
+drop if state!="36"
+keep x y geo_id
+rename geo_id ct2010
+unique(x y)
+merge 1:m x y using "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta"
+label var ct2010 "census tract number 2010"
+compress
+save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
