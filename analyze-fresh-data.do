@@ -18,6 +18,7 @@ tab year if $sample
 foreach var in 528 1320 {
 	gen dist`var'=(dist<=`var')
 	replace dist`var'=0 if missing(dist`var')
+	label var dist`var' "having a FRESH store within `var' ft."
 }
 .
 
@@ -38,4 +39,14 @@ forvalues i=12/16 {
 	}
 }
 .
-drop dist528 dist1320
+*drop dist528 dist1320
+
+split name, p(" - ")
+drop name name1
+rename name2 name
+label var name2 "nearest FRESH store"
+
+forvalues i=12/16 {
+	tab name if year==20`i' & dist528==1
+}
+.
