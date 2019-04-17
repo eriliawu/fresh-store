@@ -41,12 +41,16 @@ forvalues i=12/16 {
 .
 *drop dist528 dist1320
 
+* see what stores get how many students every year
 split name, p(" - ")
 drop name name1
 rename name2 name
-label var name2 "nearest FRESH store"
+label var name "nearest FRESH store"
+save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
 
 forvalues i=12/16 {
 	tab name if year==20`i' & dist528==1
 }
 .
+
+
