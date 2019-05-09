@@ -297,3 +297,20 @@ merge 1:m x y using "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta"
 label var ct2010 "census tract number 2010"
 compress
 save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
+
+********************************************************************************
+************ re-compute 12/13 data *********************************************
+********************************************************************************
+use "S:\Restricted Data\Geocoding\AP\newid ap coordinates 2012.dta", clear
+keep year xcoord ycoord
+duplicates drop x ycoord, force
+gen id=_n
+compress
+export delimited s12_new.csv, replace
+
+use "S:\Restricted Data\Geocoding\AP\newid ap coordinates 2013.dta", clear
+keep newid year xcoord ycoord
+duplicates drop x ycoord, force
+gen id=_n
+compress
+export delimited s13_new.csv, replace
