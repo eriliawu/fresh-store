@@ -301,16 +301,19 @@ save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
 ********************************************************************************
 ************ re-compute 12/13 data *********************************************
 ********************************************************************************
+cd "C:\Users\wue04\Box Sync\fresh\data"
 use "S:\Restricted Data\Geocoding\AP\newid ap coordinates 2012.dta", clear
 keep year xcoord ycoord
 duplicates drop x ycoord, force
+drop if missing(xcoord)|missing(ycoord)
 gen id=_n
 compress
-export delimited s12_new.csv, replace
+export delimited s12_new1.csv, replace
 
 use "S:\Restricted Data\Geocoding\AP\newid ap coordinates 2013.dta", clear
-keep newid year xcoord ycoord
+keep year xcoord ycoord
 duplicates drop x ycoord, force
+drop if missing(xcoord)|missing(ycoord)
 gen id=_n
 compress
 export delimited s13_new.csv, replace
