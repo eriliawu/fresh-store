@@ -301,6 +301,8 @@ save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
 ********************************************************************************
 ************ re-compute 12/13 data *********************************************
 ********************************************************************************
+*** extract unique xy coordinates
+*** from new-geocoded data, stamped 2019
 cd "C:\Users\wue04\Box Sync\fresh\data"
 use "S:\Restricted Data\Geocoding\AP\newid ap coordinates 2012.dta", clear
 keep year xcoord ycoord
@@ -317,3 +319,56 @@ drop if missing(xcoord)|missing(ycoord)
 gen id=_n
 compress
 export delimited s13_new.csv, replace
+
+*** connect distance output to unique xy coordinates (id)
+cd "C:\Users\wue04\Box Sync\fresh\data"
+forvalues i=12/13 {
+	import delimited "C:\Users\wue04\Box Sync\fresh\raw-output\dist`i'_new.csv", clear
+	keep incidentid total name
+	split name, p(" - ")
+	drop name name1
+	rename name2 name
+	rename inci id
+	rename total dist
+	gen year=20`i'
+	compress
+	save s`i'_clean.dta, replace
+}
+.
+append using s12_clean.dta
+save s12_13_clean.dta, replace
+erase s12_clean.dta
+erase s13_clean.dta
+
+*** connect unique xy coordinates to all students
+forvalues i=12/13 {
+	import delimited s`i'_new.csv, clear
+	save s`i'_new.dta, replace
+}
+.
+append using s12_new.dta
+merge 1:1 id year using s12_13_clean.dta
+count
+rename xcoo x
+rename ycoo y
+drop _merge
+compress
+drop id
+save s1213_xy_dist.dta, replace
+erase s12_new.dta
+erase s13_new.dta
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
