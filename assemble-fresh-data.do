@@ -352,11 +352,27 @@ count
 rename xcoo x
 rename ycoo y
 drop _merge
+rename  dist dist2
+rename name name2
 compress
 drop id
 save s1213_xy_dist.dta, replace
 erase s12_new.dta
 erase s13_new.dta
+erase s12_13_clean.dta
+
+merge 1:m x y year using "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta"
+drop if _mer==1
+drop _mer
+sum dist2
+foreach var in dist name {
+	replace `var'2=`var' if year==2014|year==2015|year==2016
+}
+.
+compress
+save "fresh-data_2012-2016_replace.dta", replace
+
+
 
 
 
