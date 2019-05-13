@@ -46,10 +46,15 @@ split name, p(" - ")
 drop name name1
 rename name2 name
 label var name "nearest FRESH store"
-save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", replace
+save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016_replace.dta", replace
 
 forvalues i=12/16 {
-	tab name if year==20`i' & dist528==1
+	tab name if year==20`i' & dist528==1 & $sample
+}
+.
+
+forvalues i=12/16 {
+	tab name if year==20`i' & dist1320==1 & $sample
 }
 .
 
