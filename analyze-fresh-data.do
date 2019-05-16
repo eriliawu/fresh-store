@@ -5,7 +5,7 @@ clear all
 set more off
 
 cd "C:\Users\wue04\Box Sync\fresh"
-use "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016.dta", clear
+use "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016_replace.dta", clear
 
 * set up sample
 tab grade
@@ -49,11 +49,13 @@ label var name "nearest FRESH store"
 save "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016_replace.dta", replace
 
 forvalues i=12/16 {
+	tab name if year==20`i' & dist528==1
 	tab name if year==20`i' & dist528==1 & $sample
 }
 .
 
 forvalues i=12/16 {
+	tab name if year==20`i' & dist1320==1
 	tab name if year==20`i' & dist1320==1 & $sample
 }
 .
