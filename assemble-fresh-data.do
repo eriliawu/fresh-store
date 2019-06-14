@@ -372,9 +372,27 @@ foreach var in dist name {
 compress
 save "fresh-data_2012-2016_replace.dta", replace
 
+*** replace 2013 data yet again
+cd "C:\Users\wue04\Box Sync\fresh"
+import delimited raw-output\dist13_re-run.csv, clear
+keep name incidentid total
+rename inci id
+rename total dist
+split name, p(" - ")
+drop name name1
+rename name2 name
+compress
+save data\temp13.dta, replace
+
+import delimited "H:\Personal\food environment paper 1\students' addresses\unique_xy13.csv", clear
+merge m:1 id using data\temp13.dta
+drop id _merge
+rename dist dist13
+compress
+merge 1:m x y year using "S:\Personal\hw1220\fresh\data\fresh-data_2012-2016_replace.dta"
 
 
-
+erase data\temp13.dta
 
 
 
