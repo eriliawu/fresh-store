@@ -34,3 +34,5 @@ tab year if $sample
 bys year: tab name if nearest==1 & $sample
 bys year: tab name if nearest==3 & $sample
 bys year: tab name if nearest==2 & $sample
+
+bys nearest year: tab name
